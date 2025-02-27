@@ -3,11 +3,18 @@ import { useEffect, useState } from "react";
 import AuthButtons from "./AuthButtons";
 import { useNavigate } from "react-router";
 import AdPostModal from "../modals/AdPostModal";
+import CloseSvg from "../svgs/CloseSvg";
+import { useDataContext } from "../contexts/DataContext";
+import { useAuth } from "../contexts/AuthContext";
 
 
 const Navbar = () => {
     const [isMenuOpen,setIsMenuOpen] = useState<boolean>(false)
     const [isAddModalOpen,setIsAddModalOpen] = useState<boolean>(false)
+    const [isAvatarOpen, setIsAvatarOpen] = useState<boolean>(false);
+
+    const {logout} = useAuth();
+    const {timeoutForSuccess, windowSize:{width}} = useDataContext();
 
 
     const navigate = useNavigate()
@@ -27,15 +34,47 @@ const Navbar = () => {
  
     }, [navigate]);
 
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setIsAvatarOpen(false);
+            setIsMenuOpen(false)
+        },100)
+
+        return () => clearTimeout(timer)
+    },[width])
+
 
     return (
         <>
+              {isAvatarOpen && width >= 768 && (
+            <div
+              onMouseLeave={() => {
+                setTimeout(() => {
+                  setIsAvatarOpen(false);
+                }, 1500);
+              }}
+              className="w-[12rem] flex flex-col justify-between items-center text-center z-[60] border-2 border-purple-600  fixed top-[5rem] left-[48.4%] bg-[rgb(89,100,224)] shadow-lg shadow-purple-500 rounded-lg"
+            >
+              <CloseSvg setIsAvatarOpen={setIsAvatarOpen} />
+              <button
+                onClick={() => {
+                  navigate("/");
+                  logout();
+                  timeoutForSuccess("Successfully logged out");
+                }}
+                className="tomas-navbar-button"
+              >
+                Logout
+              </button>
+            </div>
+          )}
         {isAddModalOpen && <AdPostModal setIsModalOpen={setIsAddModalOpen}/>}
         {isMenuOpen && (
                         
                         <div className="w-[60%] md:hidden z-[39] border-2 border-purple-600  fixed top-[9rem] left-[20%] bg-[rgb(89,100,224)] shadow-lg shadow-purple-500 rounded-lg">
                             <div className="flex flex-col items-center py-4 space-y-4">
-                            <AuthButtons setIsModalOpen={setIsAddModalOpen}/>
+                            <AuthButtons setIsModalOpen={setIsAddModalOpen}
+                                            setIsAvatarOpen={setIsAvatarOpen}/>
                             </div>
                         </div>
                     )}
@@ -43,7 +82,8 @@ const Navbar = () => {
             <div className="relative bg-waves bg-no-repeat bg-cover h-[8rem] tablet:rounded-bl-full">
                 <div className="absolute inset-0 w-full bg-[rgb(89,100,224)]/70 tablet:rounded-bl-full">
                     <div className="hidden md:flex flex-row-reverse pt-4 justify-center">
-                        <AuthButtons  setIsModalOpen={setIsAddModalOpen}/>
+                        <AuthButtons  setIsModalOpen={setIsAddModalOpen}
+                        setIsAvatarOpen={setIsAvatarOpen}/>
                     </div>
                     <button 
                         onClick={() => setIsMenuOpen(!isMenuOpen)}

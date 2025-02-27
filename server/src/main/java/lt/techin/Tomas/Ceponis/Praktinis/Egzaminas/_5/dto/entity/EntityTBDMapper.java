@@ -14,6 +14,7 @@ public class EntityTBDMapper {
     public static EntityTBDResponseDTO toDTO(EntityTBD entityTBD) {
         return new EntityTBDResponseDTO(entityTBD.getId(),
                 entityTBD.getName(),
-                entityTBD.getImageURL());
+                entityTBD.getImageURL(),
+                entityTBD.getCategories());
     }
 }

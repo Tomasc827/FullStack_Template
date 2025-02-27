@@ -126,6 +126,9 @@ const Card = () => {
             src={currentEntity.imageURL}
             alt="content-image"
           ></img>
+          {/* <p>{currentEntity.categories.map((category) => (
+            <p key={category.id}>{category.name}</p>
+          ))}</p> */}
           <div className="flex justify-between p-5">
             {roles.includes("ROLE_ADMIN") && (
               <>

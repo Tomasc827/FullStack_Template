@@ -29,7 +29,6 @@ const Login = () => {
                 "Authorization": "Basic " +  btoa(`${changedData.email}:${changedData.password}`)
             },
         })
-
         if(!response.ok) {
            timeoutForError("Incorrect email or password");
            return;

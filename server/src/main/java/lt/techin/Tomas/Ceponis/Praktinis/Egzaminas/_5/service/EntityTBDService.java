@@ -28,7 +28,7 @@ public class EntityTBDService {
             entityTBD.setImageURL("https://thb-space-01.sgp1.cdn.digitaloceanspaces.com/thb-bucket-dev/attachment/arcfile_8ad469be-a86c-4788-902e-156cdd435881.jpg");
         }
 
-        entityTBD.setCreateAt(LocalDateTime.now());
+        entityTBD.setCreatedAt(LocalDateTime.now());
 
         entityTBDRepository.save(entityTBD);
 

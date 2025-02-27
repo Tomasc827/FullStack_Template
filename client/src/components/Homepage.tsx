@@ -97,7 +97,7 @@ const Homepage = () => {
         <div className={`pb-10 grid mx-[10%] phone:grid-cols-1 tablet:grid-cols-2 desktop:grid-cols-4 pt-[13rem] gap-8 items-center text-center ${isDarkMode ? "text-white" : "text-[#5964e0]"}`}>
             {allEntities.map((one) => (
                 <div onClick={() => navigate(`/${one.id}`)}
-                 className={`rounded-2xl cursor-pointer ${isDarkMode ? "dark-card-color" : "bg-white"}`} key={one.id}>
+                 className={`rounded-2xl duration-500 hover:-translate-y-3 cursor-pointer ${isDarkMode ? "dark-card-color" : "bg-white"}`} key={one.id}>
                     <p className={`capitalize font-bold py-5`}>{one.name}</p>
                     <img className="w-[100%] desktop:h-[15rem] tablet:h-[20rem] phone:h-[25rem] bg-cover" src={one.imageURL} alt="content-image"></img>
                     <p className={`capitalize py-3`}>{one.name}</p>

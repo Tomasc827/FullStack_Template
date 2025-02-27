@@ -2,23 +2,24 @@ import { useNavigate } from "react-router";
 import { useAuth } from "../contexts/AuthContext";
 import { useDataContext } from "../contexts/DataContext";
 import UserAvatar from "../authentication/UserAvatar";
-import { useEffect, useState } from "react";
-import CloseSvg from "../svgs/CloseSvg";
+import { useEffect } from "react";
+
 
 interface PropsModal {
   setIsModalOpen: (value: boolean) => void;
+  setIsAvatarOpen: (value: boolean) => void;
 }
 
-const AuthButtons: React.FC<PropsModal> = ({ setIsModalOpen }) => {
+const AuthButtons: React.FC<PropsModal> = ({ setIsModalOpen, setIsAvatarOpen }) => {
   const { isAuthenticated, logout, roles } = useAuth();
   const {
     timeoutForSuccess,
     windowSize: { width },
   } = useDataContext();
   const navigate = useNavigate();
-  const [isAvatarOpen, setIsAvatarOpen] = useState<boolean>(false);
   useEffect(() => {
     setIsModalOpen(false)
+    setIsAvatarOpen(false)
   },[navigate])
 
   return (
@@ -40,28 +41,6 @@ const AuthButtons: React.FC<PropsModal> = ({ setIsModalOpen }) => {
         </>
       ) : (
         <>
-          {isAvatarOpen && width >= 768 && (
-            <div
-              onMouseLeave={() => {
-                setTimeout(() => {
-                  setIsAvatarOpen(false);
-                }, 1500);
-              }}
-              className="w-[12rem] flex flex-col justify-between items-center text-center z-[60] border-2 border-purple-600  fixed top-[5rem] left-[51.6%] bg-[rgb(89,100,224)] shadow-lg shadow-purple-500 rounded-lg"
-            >
-              <CloseSvg setIsAvatarOpen={setIsAvatarOpen} />
-              <button
-                onClick={() => {
-                  navigate("/");
-                  logout();
-                  timeoutForSuccess("Successfully logged out");
-                }}
-                className="tomas-navbar-button"
-              >
-                Logout
-              </button>
-            </div>
-          )}
           <UserAvatar setIsAvatarOpen={setIsAvatarOpen} />
           {width < 768 && (
             <button

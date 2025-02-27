@@ -44,7 +44,23 @@ public class InitDatabase {
                 user.getRoles().add(roleRepository.findByName("ROLE_USER"));
                 user.getRoles().add(roleRepository.findByName("ROLE_ADMIN"));
 
+                User king = new User();
+                king.setImageURL("https://toddmerrillstudio.com/wp-content/uploads/2021/02/6-800x800.jpg");
+                king.setName("king");
+                king.setEmail("some1@thing.com");
+                king.setPassword(passwordEncoder.encode("Something9!"));
+                king.getRoles().add(roleRepository.findByName("ROLE_USER"));
+
+                User clown = new User();
+                clown.setImageURL("https://images2.minutemediacdn.com/image/upload/c_fill,w_1200,ar_1:1,f_auto,q_auto,g_auto/shape/cover/sport/clown-4-104309a9de96b5c3b380947359b31f69.jpg");
+                clown.setName("clown");
+                clown.setEmail("some2@thing.com");
+                clown.setPassword(passwordEncoder.encode("Something9!"));
+                clown.getRoles().add(roleRepository.findByName("ROLE_USER"));
+
                 userRepository.save(user);
+                userRepository.save(king);
+                userRepository.save(clown);
 
             }
         };

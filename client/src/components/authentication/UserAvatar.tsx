@@ -3,7 +3,7 @@ import { useDataContext } from "../contexts/DataContext";
 import defaultImage from "../../assets/default.jpg"
 
 
-const UserAvatar = ({ setIsAvatarOpen }: { setIsAvatarOpen: React.Dispatch<React.SetStateAction<boolean>> }) => {
+const UserAvatar = ({setIsAvatarOpen}) => {
     const {url,setIsLoading,timeoutForError} = useDataContext();
     const [avatar,setAvatar] = useState<string>("")
 

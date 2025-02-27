@@ -3,6 +3,8 @@ import { createContext, ReactNode, useContext, useState } from "react";
 type AuthContextType = {
     isAuthenticated: boolean;
     roles: string[];
+    userId: string;
+    setUserId: (userId:string) => void;
     login: (token: string) => void;
     logout: () => void;
 }
@@ -12,7 +14,9 @@ const AuthContext = createContext<AuthContextType>({
     isAuthenticated: false,
     roles: [],
     login: () => {},
-    logout: () => {}
+    logout: () => {},
+    userId: "",
+    setUserId: () => {}
 });
 
 export const useAuth = () => {
@@ -25,6 +29,10 @@ export const AuthProvider = ({children}: {children:ReactNode}) => {
         const storedRoles = localStorage.getItem("roles");
         return storedRoles ? JSON.parse(storedRoles) : [];
     })
+    const [userId,setUserId] = useState<string>(() => {
+        const storedUserId = localStorage.getItem("userId");
+        return storedUserId ? JSON.parse(storedUserId) : "";
+    })
 
     const login = (token:string) => {
         localStorage.setItem("token",token);
@@ -32,8 +40,11 @@ export const AuthProvider = ({children}: {children:ReactNode}) => {
         const decoded: any = jwtDecode(token);
         const scopeString: string = decoded.scope || "";
         const roleArray = scopeString.split(" ").filter(role => role.startsWith("ROLE_"))
+        const userIdString: string = decoded.userId.toString() || "";
+        localStorage.setItem("userId",JSON.stringify(userIdString))
         localStorage.setItem("roles",JSON.stringify(roleArray))
         setRoles(roleArray);
+        setUserId(userIdString);
     } 
 
     const logout = () => {
@@ -44,7 +55,7 @@ export const AuthProvider = ({children}: {children:ReactNode}) => {
 
 
     return (
-        <AuthContext.Provider value={{login,logout,isAuthenticated,roles}} >
+        <AuthContext.Provider value={{login,logout,isAuthenticated,roles,userId,setUserId}} >
             {children}
         </AuthContext.Provider>
     )
